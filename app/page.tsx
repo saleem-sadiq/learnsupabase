@@ -1,39 +1,21 @@
 import { createClient } from '@/utils/supabase/server';
 import { cookies } from 'next/headers';
-import { useEffect, useState } from 'react';
 
 export default async function Index() {
-
-  const [smoothies, setSmoothies] = useState<object|null>(null);
-  const [error, setError] = useState<string|null>(null);
-
-  useEffect(() => {
-    const fetchSmoothies = async () => {
-      const { data, error } = await supabase
-        .from('smoothies')
-        .select()
-
-        if(error){
-          setError('Could not fetch the data');
-          setSmoothies(null);
-          console.log(error);
-          
-        }
-        if(smoothies){
-          setSmoothies(data);
-          setError(null);
-        }
-    }
-
-    fetchSmoothies();
-  }, [])
-
   const supabase = createClient(cookies());
-  const { data: notes } = await supabase.from("notes").select();
+  const { data, error } = await supabase.from("smoothies").select();
 
   return (
     <div className='w-full'>
-      <pre>{JSON.stringify(notes, null, 2)}</pre>
+      <div className="w-full flex items-center justify-center max-h-52 mt-10 gap-16">
+        {data?.map((data) => (
+          <div className='w-fit h-full flex flex-col justify-start py-10 px-20 bg-green-300 leading-loose'>
+            <h2 className='my-5 font-bold text-2xl'>{data.title}</h2>
+            <p>{data.method}</p>
+            <p>Rating: {data.rating}</p>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
