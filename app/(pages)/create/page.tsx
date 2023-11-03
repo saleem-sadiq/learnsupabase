@@ -1,8 +1,9 @@
-import React from 'react'
+import InsertForm from "@/components/InsertForm"
+
 
 const create = () => {
-  return (
-    <div>create</div>
+  return(
+    <InsertForm/>
   )
 }
 
