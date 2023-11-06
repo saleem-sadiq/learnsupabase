@@ -1,5 +1,6 @@
 import { createClient } from '@/utils/supabase/server';
 import { cookies } from 'next/headers';
+import Link from 'next/link';
 
 export default async function Index() {
   const supabase = createClient(cookies());
@@ -13,6 +14,7 @@ export default async function Index() {
             <h2 className='my-5 font-bold text-2xl'>{data.title}</h2>
             <p>{data.method}</p>
             <p>Rating: {data.rating}</p>
+            <Link href={"/"+data.id}>Update</Link>
           </div>
         ))}
       </div>
