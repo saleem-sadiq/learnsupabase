@@ -1,10 +1,12 @@
 import { createClient } from '@/utils/supabase/server';
-import { cookies } from 'next/headers';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import DeleteSmoothie from '@/components/DeleteSmoothie';
+import { cookies } from 'next/headers';
 
 export default async function Index() {
   const supabase = createClient(cookies());
-  const { data, error } = await supabase.from("smoothies").select();
+  const { data } = await supabase.from("smoothies").select();
 
   return (
     <div className='w-full'>
@@ -14,7 +16,8 @@ export default async function Index() {
             <h2 className='my-5 font-bold text-2xl'>{data.title}</h2>
             <p>{data.method}</p>
             <p>Rating: {data.rating}</p>
-            <Link href={"/"+data.id}>Update</Link>
+            <Link href={"/" + data.id}>Update</Link>
+            <DeleteSmoothie id={data.id} />
           </div>
         ))}
       </div>
